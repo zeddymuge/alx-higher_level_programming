@@ -1,40 +1,70 @@
 #include "lists.h"
-#include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
 
-/**
-  * is_palindrome - A function that checks if a list is a palindrome.
-  * @head: The pointer to the head of the list.
-  * Return: 0 if list not a palindrome, 1 if it is.
-  */
 int is_palindrome(listint_t **head)
 {
-	listint_t *tmp = *head;
-	int nodes = 0, i = 0, *array = NULL;
+  listint_t *nhead, *tort, *hare, *ptort;
+  listint_t *cut = NULL, *half, *it1, *it2;
 
-	if (*head == NULL || head == NULL || (*head)->next == NULL)
-		return (1);
-	while (tmp)
+  if (!head || !*head)
+    return (1);
+
+  nhead = *head;
+  if (nhead->next != NULL)
+    {
+      for (hare = nhead, tort = nhead; hare != NULL && hare->next != NULL;
+	   ptort = tort, tort = tort->next)
+	hare = hare->next->next;
+      if (hare != NULL)
 	{
-		nodes++;
-		tmp = tmp->next;
+	  cut = tort;
+	  tort = tort->next;
 	}
-	array = malloc(sizeof(int) * nodes);
-	tmp = *head;
-	while (tmp)
+      ptort->next = NULL;
+      half = tort;
+      it1 = reverse_listint(&half);
+      for (it2 = *head; it2; it1 = it1->next, it2 = it2->next)
 	{
-		array[i++] = tmp->n;
-		tmp = tmp->next;
+	  if (it2->n != it1->n)
+	    return (0);
 	}
-	for (i = 0; i < nodes / 2; i++)
+      if (cut == NULL)
+	ptort->next = half;
+      else
 	{
-		if (array[i] != array[nodes - 1 - i])
-		{
-			free(array);
-			return (0);
-		}
+	  ptort->next = cut;
+	  cut->next = half;
 	}
-	free(array);
-	return (1);
+    }
+
+  return (1);
+}
+
+/**
+ * reverse_listint - Reverses a linked list in pladce
+ * @head: Pointer to a pointer pointing to the first item in the list
+ *
+ * Return: The new head of the reversed list
+ */
+listint_t *reverse_listint(listint_t **head)
+{
+  listint_t *next = NULL, *prev = NULL;
+
+  if (!head || !*head)
+    return (NULL);
+
+  while ((*head)->next)
+    {
+      next = (*head)->next;
+
+      (*head)->next = prev;
+
+      prev = *head;
+
+      *head = next;
+    }
+
+  (*head)->next = prev;
+
+  return (*head);
 }
