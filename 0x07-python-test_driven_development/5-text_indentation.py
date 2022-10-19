@@ -1,18 +1,25 @@
 #!/usr/bin/python3
 """
-Module 5-text_indentation
-Contain a method that print a text
-The text with 2 new lines after each of these characters: ., ? and :
-Takes one text argumnet
+This is the "5-test_indentation" module.
+The 5-text_indentation module supplies one function, text_indentation(text).
 """
 
 
 def text_indentation(text):
-        """a text with 2 new lines after each of these characters: ., ? and :"""
-            if type(text) is not str:
-                        raise TypeError("text must be a string")
-                        for char in ".?:":
-                                    text = text.replace(char, char + "\n\n")
-                                        new_line = [line.strip(' ') for line in text.split("\n")]
-                                            output = "\n".join(new_line)
-                                                print(output, end="")
+    """splits a text into lines along "?", ":", "." followed by 2 new lines"""
+    if type(text) is not str:
+        raise TypeError("text must be a string")
+    flag = 0
+    for a in text:
+        if flag == 0:
+            if a == ' ':
+                continue
+            else:
+                flag = 1
+        if flag == 1:
+            if a == '?' or a == '.' or a == ':':
+                print(a)
+                print()
+                flag = 0
+            else:
+                print(a, end="")
