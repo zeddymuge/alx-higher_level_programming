@@ -1,3 +1,3 @@
 #!/bin/bash
-# script that was a fun effort in breaking to http protocols on holberton servers
-curl -s -L -X PUT -d "user_id=98" -H "You got me!" 0.0.0.0:5000/catch_me
+# makes request to 0.0.0.0:5000/catch_me
+curl -sL -X PUT -H "Origin: HolbertonSchool" -d "user_id=98" 0.0.0.0:5000/catch_me
